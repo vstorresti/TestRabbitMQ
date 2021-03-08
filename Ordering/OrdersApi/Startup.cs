@@ -18,6 +18,7 @@ using Microsoft.OpenApi.Models;
 using OrdersApi.Messages.Consumers;
 using OrdersApi.Persistence;
 using OrdersApi.Services;
+using Persistence;
 
 namespace OrdersApi
 {
@@ -38,6 +39,8 @@ namespace OrdersApi
                 Configuration.GetConnectionString("OrdersContextConnection")
             ));
 
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             services.AddMassTransit(
                 c =>
                 {
@@ -56,6 +59,7 @@ namespace OrdersApi
 
                     cfg.ConfigureEndpoints(provider);
                 }));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
